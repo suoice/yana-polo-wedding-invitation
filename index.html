@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yana & Polo | May 10, 2026</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Lato:wght@300;400&family=Pinyon+Script&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            --bg-color: #FDFCF6; /* Warm Paper */
+            --text-main: #1a1a1a;
+            --accent-sun: #E6AF2E; /* Deep Marigold/Gold */
+            --accent-glow: rgba(230, 175, 46, 0.4);
+            --grain-opacity: 0.04;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { 
+            scroll-behavior: smooth; 
+            cursor: none; 
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- 2. ATMOSPHERE --- */
+        .grain-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: var(--grain-opacity);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .cursor-dot, .cursor-glow {
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 10000; pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background: var(--text-main); }
+        .cursor-glow {
+            width: 40px; height: 40px; background: var(--accent-glow);
+            filter: blur(10px); transition: width 0.3s, height 0.3s;
+        }
+        
+        .editorial-font { font-family: 'Cinzel', serif; letter-spacing: -0.02em; }
+        .script-font { font-family: 'Pinyon Script', cursive; }
+        .section-padding { padding: 8rem 5%; }
+
+        /* --- 3. NAV --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 2rem 3rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; mix-blend-mode: difference; color: white;
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; letter-spacing: 2px; }
+        .nav-items { display: flex; gap: 2rem; list-style: none; }
+        .nav-items a { text-decoration: none; color: inherit; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+
+        /* --- 4. HERO --- */
+        .hero {
+            height: 110vh; position: relative; display: grid; grid-template-columns: 1fr 1fr;
+            align-items: center; padding: 0 5%; overflow: hidden;
+        }
+        h1.big-title {
+            font-size: 13vw; line-height: 0.8; margin-left: -1vw; color: var(--text-main);
+            position: relative; z-index: 2;
+        }
+        .hero-date {
+            font-size: 1.2rem; text-transform: uppercase; letter-spacing: 5px;
+            margin-top: 2rem; border-left: 2px solid var(--accent-sun); padding-left: 20px;
+        }
+        .hero-img-container {
+            position: absolute; top: 10%; right: 5%; width: 45vw; height: 70vh;
+            overflow: hidden; z-index: 1;
+        }
+        .hero-img {
+            width: 100%; height: 120%; object-fit: cover;
+            /* Placeholder Image */
+            background: url('images/hero-bg.jpg') center/cover;
+        }
+        .sun-seal {
+            position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%);
+            width: 150px; height: 150px; z-index: 10;
+        }
+        .sun-seal svg { animation: rotate 20s linear infinite; fill: var(--text-main); }
+
+        /* --- 5. STORY --- */
+        .story-block { display: flex; align-items: center; gap: 5rem; margin-bottom: 8rem; }
+        .story-block:nth-child(even) { flex-direction: row-reverse; }
+        .story-img-frame { flex: 1; height: 600px; overflow: hidden; position: relative; }
+        .story-img-frame img { width: 100%; height: 115%; object-fit: cover; transition: transform 0.5s ease-out; }
+        .story-content { flex: 1; padding: 2rem; position: relative; }
+        .chapter-num { font-family: 'Cinzel', serif; font-size: 5rem; color: var(--accent-sun); opacity: 0.3; position: absolute; top: -3rem; left: 0; }
+        .story-content h3 { font-size: 2.5rem; margin-bottom: 1.5rem; font-family: 'Cinzel', serif; }
+        .story-content p { font-size: 1.1rem; line-height: 1.8; color: #555; }
+
+        /* --- 6. DETAILS --- */
+        .details-section { background: #1a1a1a; color: #FDFCF6; }
+        .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgba(255,255,255,0.2); }
+        .detail-item { padding: 4rem 2rem; border-right: 1px solid rgba(255,255,255,0.2); transition: background 0.5s; }
+        .detail-item:last-child { border-right: none; }
+        .detail-item:hover { background: rgba(230, 175, 46, 0.1); }
+        .detail-label { font-family: 'Cinzel', serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--accent-sun); }
+
+        /* --- 7. GALLERY --- */
+        .gallery-carousel { position: relative; height: 80vh; display: flex; align-items: center; justify-content: center; perspective: 1000px; margin-top: 3rem; overflow: hidden; }
+        .carousel-container { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .carousel-card {
+            position: absolute; width: min(400px, 80vw); height: min(550px, 60vh);
+            background: #D3D3D3; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease, z-index 0s; 
+        }
+        .carousel-card img { width: 100%; height: 100%; object-fit: cover; filter: sepia(10%); }
+        .carousel-card.center { z-index: 3; transform: translateX(0) scale(1.1); opacity: 1; }
+        .carousel-card.left { z-index: 2; transform: translateX(-400px ) scale(0.85); opacity: 0.6; filter: blur(1px); }
+        .carousel-card.right { z-index: 2; transform: translateX(400px) scale(0.85); opacity: 0.6; filter: blur(1px); }
+        .carousel-card.hidden { opacity: 0; transform: scale(0.5); }
+        .carousel-controls { display: flex; justify-content: center; gap: 2rem; margin-bottom: 4rem; }
+        .carousel-btn { background: transparent; border: 1px solid var(--text-main); padding: 1rem 2rem; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .carousel-btn:hover { background: var(--text-main); color: white; }
+
+        /* --- 8. FAQ --- */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid rgba(0,0,0,0.1); }
+        .faq-question { padding: 2rem 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: 'Cinzel', serif; font-size: 1.3rem; transition: color 0.3s; }
+        .faq-question:hover { color: var(--accent-sun); }
+        .faq-toggle { font-size: 1.5rem; transition: transform 0.3s; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+        .faq-answer p { padding-bottom: 2rem; color: #666; line-height: 1.6; }
+        .faq-item.active .faq-answer { max-height: 200px; }
+        .faq-item.active .faq-toggle { transform: rotate(45deg); color: var(--accent-sun); }
+
+        /* --- 9. COUNTDOWN --- */
+        .countdown-strip { background: var(--bg-color); padding: 6rem 0; text-align: center; border-top: 1px solid #eee; }
+        .countdown-label { font-family: 'Pinyon Script', cursive; font-size: 2rem; margin-bottom: 1rem; color: #888; }
+        .timer-flex { display: flex; justify-content: center; gap: 4rem; font-family: 'Cinzel', serif; color: var(--text-main); }
+        .time-block { display: flex; flex-direction: column; align-items: center; }
+        .time-val { font-size: 4rem; line-height: 1; }
+        .time-txt { font-size: 0.8rem; letter-spacing: 3px; margin-top: 10px; color: var(--accent-sun); }
+
+        /* --- 10. RSVP --- */
+        .rsvp-wrapper { max-width: 600px; margin: 0 auto; text-align: center; }
+        input, select, textarea {
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--text-main);
+            padding: 15px 0; font-family: 'Lato', sans-serif; font-size: 1.2rem; margin-bottom: 2rem; border-radius: 0;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-bottom: 2px solid var(--accent-sun); }
+        .submit-feedback { display: none; margin-top: 1rem; color: var(--accent-sun); font-family: 'Cinzel', serif; }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .reveal-up { opacity: 0; transform: translateY(50px); transition: 1s ease; }
+        .reveal-up.active { opacity: 1; transform: translateY(0); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; height: 100vh; }
+            .hero-img-container { width: 80vw; height: 50vh; top: 20%; right: 10%; opacity: 0.6; }
+            h1.big-title { font-size: 18vw; }
+            .story-block, .story-block:nth-child(even) { flex-direction: column; gap: 2rem; margin-bottom: 4rem; }
+            .story-img-frame { width: 100%; height: 400px; }
+            .details-grid { grid-template-columns: 1fr; }
+            .detail-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.2); }
+            .carousel-card.left { transform: translateX(-150px) scale(0.7); }
+            .carousel-card.right { transform: translateX(150px) scale(0.7); }
+            .timer-flex { gap: 1.5rem; }
+            .time-val { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .timer-flex { 
+                gap: 1rem; /* Smaller gap */
+            }
+            .time-val { 
+                font-size: 2rem; /* Slightly smaller text */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grain-overlay"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-glow"></div>
+
+    <nav>
+        <div class="logo editorial-font">Y & P</div>
+        <ul class="nav-items">
+            <li><a href="#story">Story</a></li>
+            <li><a href="#details">Details</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-text-wrapper parallax-text">
+            <p class="script-font" style="font-size: 2rem; margin-left: 10px;">The wedding of</p>
+            <h1 class="big-title editorial-font">
+                <span>YANA</span>
+                <span style="font-style: italic; color: var(--accent-sun)">&</span>
+                <span>POLO</span>
+            </h1>
+            <div class="hero-date">
+                May 10, 2026<br>Catanduanes
+            </div>
+        </div>
+        <div class="hero-img-container">
+            <div class="hero-img"></div>
+        </div>
+        <div class="sun-seal">
+            <svg viewBox="0 0 100 100" width="100" height="100">
+                <path id="circlePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="transparent" />
+                <text font-size="12" font-family="Cinzel" letter-spacing="2">
+                    <textPath href="#circlePath">FOREVER BEGINS NOW • CELEBRATION •</textPath>
+                </text>
+            </svg>
+        </div>
+    </section>
+
+    <section id="story" class="section-padding">
+        <div class="story-block reveal-up">
+            <div class="story-img-frame"><img src="images/story-1.jpg" class="parallax-img" alt="Spark"></div>
+            <div class="story-content">
+                <span class="chapter-num">01</span>
+                <h3>The Spark</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+        <div class="story-block reveal-up">
+            <div class="story-img-frame"><img src="images/story-2.jpg" class="parallax-img" alt="Question"></div>
+            <div class="story-content">
+                <span class="chapter-num">02</span>
+                <h3>The Question</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+        <div class="story-block reveal-up">
+            <div class="story-img-frame"><img src="images/story-3.jpg" class="parallax-img" alt="Vow"></div>
+            <div class="story-content">
+                <span class="chapter-num">03</span>
+                <h3>The Vow</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="details-section" id="details">
+        <div class="details-grid">
+            <div class="detail-item">
+                <div class="detail-label">Ceremony</div>
+                <p>1:00 PM</p>
+                <p> Church</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; color: grey;">Catanduanes, Philippines</p>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Reception</div>
+                <p>5:30 PM</p>
+                <p> Resort</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; color: grey;">Dinner & Dancing</p>
+            </div>
+            <div class="detail-item">
+                <div class="detail-label">Dress Code</div>
+                <p style="color: var(--accent-sun);">Formal Sunlight</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; color: grey;">Ladies in Gold/Champagne. Gents in Tan.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="section-padding">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <p class="script-font" style="font-size: 2rem; color: #888;">Captured</p>
+            <h2 class="editorial-font" style="font-size: 3rem;">Moments</h2>
+        </div>
+        <div class="gallery-carousel">
+            <div class="carousel-container" id="carouselContainer">
+                <div class="carousel-card center"><img src="images/gallery-1.jpg" alt=""></div>
+                <div class="carousel-card left"><img src="images/gallery-2.jpg" alt=""></div>
+                <div class="carousel-card right"><img src="images/gallery-3.jpg" alt=""></div>
+                <div class="carousel-card hidden"><img src="images/gallery-4.jpg" alt=""></div>
+                <div class="carousel-card hidden"><img src="images/gallery-5.jpg" alt=""></div>
+            </div>
+        </div>
+        <div class="carousel-controls">
+            <button class="carousel-btn" id="prevBtn">Previous</button>
+            <button class="carousel-btn" id="nextBtn">Next</button>
+        </div>
+    </section>
+
+    <section id="faq" class="section-padding" style="background: #F8F8F8;">
+        <h2 class="editorial-font" style="text-align: center; margin-bottom: 4rem; font-size: 2.5rem;">Questions</h2>
+        <div class="faq-container">
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">What should I wear?<span class="faq-toggle">+</span></div>
+                <div class="faq-answer"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.</p></div>
+            </div>
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">Are kids invited?<span class="faq-toggle">+</span></div>
+                <div class="faq-answer"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.</p></div>
+            </div>
+             <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">tanong ba to?<span class="faq-toggle">+</span></div>
+                <div class="faq-answer"><p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Dolor sit amet consectetur adipiscing elit quisque faucibus.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="countdown-strip">
+        <div class="countdown-label">May 10, 2026</div>
+        <div class="timer-flex" id="countdown">
+            <div class="time-block">
+                <span class="time-val" id="days">00</span>
+                <span class="time-txt">DAYS</span>
+            </div>
+            <div class="time-block">
+                <span class="time-val" id="hours">00</span>
+                <span class="time-txt">HOURS</span>
+            </div>
+            <div class="time-block">
+                <span class="time-val" id="minutes">00</span>
+                <span class="time-txt">MINS</span>
+            </div>
+            <div class="time-block">
+                <span class="time-val" id="seconds">00</span>
+                <span class="time-txt">SECS</span>
+            </div>
+        </div>
+    </div>
+
+    <section id="rsvp" class="section-padding">
+        <div class="rsvp-wrapper">
+            <h2 class="editorial-font" style="font-size: 3rem; margin-bottom: 1rem;">Joyfully Accept?</h2>
+            <p style="margin-bottom: 3rem; color: #666;">Kindly respond by March 1st, 2026</p>
+            
+            <form id="rsvpForm">
+                <input type="text" id="entryName" placeholder="Your Full Name" required>
+                <input type="email" id="entryEmail" placeholder="Email Address" required>
+                
+                <div style="display: flex; gap: 20px;">
+                    <select id="entryGuests" required>
+                        <option value="" disabled selected>Number of Guests</option>
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                    </select>
+                    <select id="entryAttendance" required>
+                        <option value="" disabled selected>Attendance</option>
+                        <option value="Accepts">Joyfully Accepts</option>
+                        <option value="Declines">Regretfully Declines</option>
+                    </select>
+                </div>
+                
+                <textarea id="entryMessage" placeholder="Dietary Restrictions / Message for the couple" rows="2"></textarea>
+                
+                <button type="submit" class="carousel-btn" style="width: 100%; margin-top: 2rem;">Confirm Attendance</button>
+                <div class="submit-feedback" id="formFeedback">Sending your response...</div>
+            </form>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 2rem; border-top: 1px solid #ddd; background: #1a1a1a; color: white;">
+        <p class="editorial-font">With love and gratitude,</p>
+        <p class="editorial-font">Yana & Polo 2026</p>
+    </footer>
+
+    <script>
+        // --- 1. CONFIGURATION (YOU MUST CHANGE THESE) ---
+        // How to get these:
+        // 1. Create a Google Form with Name, Email, Guests, Attendance, Message.
+        // 2. Click 3 dots > "Get pre-filled link"
+        // 3. Fill dummy data, click "Get Link", copy it.
+        // 4. Look for 'entry.123456=' in the URL. These are your field IDs.
+        
+        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfX-jKtXVeqpfzm6HNvz57RcehFE9iXhE3YTyEpgbfct7NMhA/formResponse';
+        
+        // Map your form fields here:
+        const FIELD_IDS = {
+            name: 'entry.877086558',   // Replace with actual ID for Name
+            email: 'entry.1498135098',  // Replace with actual ID for Email
+            guests: 'entry.1424661284', // Replace with actual ID for Guests
+            attendance: 'entry.2606285', // Replace with actual ID for Attendance
+            message: 'entry.273053581' // Replace with actual ID for Message
+        };
+
+        // --- 2. RSVP SUBMISSION LOGIC ---
+        document.getElementById('rsvpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const btn = this.querySelector('button');
+            const feedback = document.getElementById('formFeedback');
+            
+            btn.style.opacity = '0.5';
+            btn.innerText = 'Sending...';
+            feedback.style.display = 'block';
+
+            // Create form data (using the Google Entry IDs)
+            const formData = new FormData();
+            formData.append(FIELD_IDS.name, document.getElementById('entryName').value);
+            formData.append(FIELD_IDS.email, document.getElementById('entryEmail').value);
+            formData.append(FIELD_IDS.guests, document.getElementById('entryGuests').value);
+            formData.append(FIELD_IDS.attendance, document.getElementById('entryAttendance').value);
+            formData.append(FIELD_IDS.message, document.getElementById('entryMessage').value);
+
+            // Send to Google Forms using 'no-cors' mode (allows submission without redirect)
+            fetch(GOOGLE_FORM_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            }).then(() => {
+                feedback.innerText = "Thank you! Your RSVP has been received.";
+                feedback.style.color = "green";
+                btn.innerText = "Sent";
+                document.getElementById('rsvpForm').reset();
+            }).catch(err => {
+                feedback.innerText = "Something went wrong. Please try again.";
+                feedback.style.color = "red";
+                btn.style.opacity = '1';
+                btn.innerText = "Confirm Attendance";
+            });
+        });
+
+        // --- 3. COUNTDOWN LOGIC (Updated Date) ---
+        // Date set to May 10, 2026 @ 1:00 PM (13:00)
+
+        const weddingDate = new Date('May 10, 2026 13:00:00').getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if(distance < 0) {
+                document.getElementById('countdown').innerHTML = "<div>WE ARE MARRIED!</div>";
+                return;
+            }
+
+            // Math calculations
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000); // Calculate Seconds
+
+            // Update HTML
+            document.getElementById('days').innerText = String(d).padStart(2, '0');
+            document.getElementById('hours').innerText = String(h).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(s).padStart(2, '0'); // Update Seconds
+        }
+
+        // Run immediately, then every 1 second
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        // --- 4. GALLERY LOGIC (Original Preserved) ---
+        let currentIndex = 0;
+        const cards = document.querySelectorAll('.carousel-card');
+        const totalCards = cards.length;
+
+        function updateCarousel() {
+            cards.forEach(card => card.classList.remove('center', 'left', 'right', 'hidden'));
+            
+            const centerIndex = currentIndex;
+            const rightIndex = (currentIndex + 1) % totalCards;
+            const leftIndex = (currentIndex - 1 + totalCards) % totalCards; 
+
+            cards[centerIndex].classList.add('center');
+            cards[rightIndex].classList.add('right');
+            cards[leftIndex].classList.add('left');
+
+            cards.forEach((card, index) => {
+                if(index !== centerIndex && index !== rightIndex && index !== leftIndex) card.classList.add('hidden');
+            });
+        }
+        updateCarousel();
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalCards;
+            updateCarousel();
+        });
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            updateCarousel();
+        });
+
+        // --- 5. VISUAL EFFECTS ---
+        function toggleFAQ(element) { element.classList.toggle('active'); }
+
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorGlow = document.querySelector('.cursor-glow');
+
+        document.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            setTimeout(() => {
+                cursorGlow.style.left = e.clientX + 'px';
+                cursorGlow.style.top = e.clientY + 'px';
+            }, 50);
+        });
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroText = document.querySelector('.parallax-text');
+            if(heroText) heroText.style.transform = `translateY(${scrolled * 0.3}px)`;
+
+            document.querySelectorAll('.story-img-frame img').forEach(img => {
+                const rect = img.parentElement.getBoundingClientRect();
+                if(rect.top < window.innerHeight && rect.bottom > 0) {
+                     img.style.transform = `translateY(${(rect.top - window.innerHeight/2) * 0.1}px)`;
+                }
+            });
+
+            document.querySelectorAll('.reveal-up').forEach(el => {
+                if(el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
